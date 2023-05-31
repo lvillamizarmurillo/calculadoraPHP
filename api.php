@@ -1,18 +1,24 @@
 <?php
     session_start();
-    if(isset($_POST["numero"])){
-        if($_POST["numero"] == "c"){
-            $_SESSION['num1'] = null;
-        }else if($_POST["numero"] == "¡"){
-            $_SESSION['num1'] = substr($_SESSION['num1'],0,-1);
-        }else{
-            if(isset($_SESSION['num1'])){
-                $_SESSION['num1'] .= $_POST["numero"];
+    function agreste($calculao){
+        if(isset($_POST["numero"])){
+            if($_POST["numero"] == "c"){
+                $_SESSION[$calculao] = null;
+            }else if($_POST["numero"] == "¡"){
+                $_SESSION[$calculao] = substr($_SESSION[$calculao],0,-1);
             }else{
-                $_SESSION['num1'] = $_POST["numero"];
+                if(isset($_SESSION['num1'])){
+                    $_SESSION[$calculao] .= $_POST["numero"];
+                }else{
+                    $_SESSION[$calculao] = $_POST["numero"];
+                }
             }
         }
-    }
+        return $_SESSION[$calculao];
+    };
+    $_SESSION['num1'] = agreste('num1');
+    $_SESSION['num2'] = agreste('num2');
+    var_dump($_SESSION['num1'].$_SESSION['num2'])
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +42,9 @@
         <button type="submit" name="numero" value="9">9</button>
         <button type="submit" name="numero" value="0">0</button>
         <button type="submit" name="numero" value="¡">¡</button>
-        <button type="submit" name="numero" value="c">c</button><br>
+        <button type="submit" name="numero" value="c">c</button>
+        <button type="submit" name="operador" value="-">+</button>
+        <button type="submit" name="operador" value="+">-</button>
         <input type="submit" value="Enviar">
     </form>
 </body>
