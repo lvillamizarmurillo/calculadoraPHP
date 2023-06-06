@@ -1,13 +1,13 @@
 <?php
     session_start();
     function agreste($calculao){
-        if(isset($_POST["numero"])){
-            if($_POST["numero"] == "c"){
+        if(isset($_POST["numero"])||isset($_POST["opcion"])){
+            if($_POST["opcion"] == "c"){
                 $_SESSION[$calculao] = null;
-            }else if($_POST["numero"] == "¡"){
+            }else if($_POST["opcion"] == "¡"){
                 $_SESSION[$calculao] = substr($_SESSION[$calculao],0,-1);
             }else{
-                if(isset($_SESSION['num1'])){
+                if(isset($_SESSION[$calculao])){
                     $_SESSION[$calculao] .= $_POST["numero"];
                 }else{
                     $_SESSION[$calculao] = $_POST["numero"];
@@ -16,9 +16,9 @@
         }
         return $_SESSION[$calculao];
     };
-    $_SESSION['num1'] = agreste('num1');
-    $_SESSION['num2'] = agreste('num2');
-    var_dump($_SESSION['num1'].$_SESSION['num2'])
+    var_dump($_SESSION['num1']);
+    echo "<hr>";
+    var_dump($_SESSION['num2']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +30,16 @@
 </head>
 <body>
     <form method="POST">
-        <input type="text" name="resultado" value="<?php echo isset($_SESSION['num1']) ? $_SESSION['num1'] : 0;?>">
+        <input type="text" name="resultado" value="<?php if($_POST['operador'] == null || empty($_SESSION['opc'])){
+            $_SESSION['num1'] = agreste('num1');
+            echo $_SESSION['num1'];
+        }else{
+            $_SESSION['opc'] = $_POST['operador'];
+            echo $_SESSION['opc'];
+            echo $_SESSION['num2'];
+            $_SESSION['num2'] = agreste('num2');
+        };
+        ?>">
         <button type="submit" name="numero" value="1">1</button>
         <button type="submit" name="numero" value="2">2</button>
         <button type="submit" name="numero" value="3">3</button>
@@ -41,10 +50,10 @@
         <button type="submit" name="numero" value="8">8</button>
         <button type="submit" name="numero" value="9">9</button>
         <button type="submit" name="numero" value="0">0</button>
-        <button type="submit" name="numero" value="¡">¡</button>
-        <button type="submit" name="numero" value="c">c</button>
-        <button type="submit" name="operador" value="-">+</button>
-        <button type="submit" name="operador" value="+">-</button>
+        <button type="submit" name="opcion" value="¡">¡</button>
+        <button type="submit" name="opcion" value="c">c</button>
+        <button type="submit" name="operador" value="+">+</button>
+        <button type="submit" name="operador" value="-">-</button>
         <input type="submit" value="Enviar">
     </form>
 </body>
