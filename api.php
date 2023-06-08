@@ -3,8 +3,8 @@
     function agreste($calculao){
         if(isset($_POST["numero"])||isset($_POST["opcion"])){
             if($_POST["opcion"] == "c"){
-                $_SESSION[$calculao] = null;
-            }else if($_POST["opcion"] == "¡"){
+                $_SESSION = null;
+            }else if($_POST["opcion"] == "⇦"){
                 $_SESSION[$calculao] = substr($_SESSION[$calculao],0,-1);
             }else{
                 if(isset($_SESSION[$calculao])){
@@ -16,9 +16,14 @@
         }
         return $_SESSION[$calculao];
     };
+    if($_POST['enviar'] == "Enviar"){
+
+    }
     var_dump($_SESSION['num1']);
     echo "<hr>";
     var_dump($_SESSION['num2']);
+    echo "<hr>";
+    var_dump($_SESSION['opc']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,14 +35,13 @@
 </head>
 <body>
     <form method="POST">
-        <input type="text" name="resultado" value="<?php if($_POST['operador'] == null || empty($_SESSION['opc'])){
+        <input type="text" name="resultado" value="<?php if($_POST['operador'] == null && empty($_SESSION['opc'])){
             $_SESSION['num1'] = agreste('num1');
             echo $_SESSION['num1'];
         }else{
-            $_SESSION['opc'] = $_POST['operador'];
-            echo $_SESSION['opc'];
-            echo $_SESSION['num2'];
             $_SESSION['num2'] = agreste('num2');
+            $_SESSION['opc'] .= $_POST['operador'];
+            echo $_SESSION['num1'].$_SESSION['opc'][-1].$_SESSION['num2'];
         };
         ?>">
         <button type="submit" name="numero" value="1">1</button>
@@ -50,11 +54,11 @@
         <button type="submit" name="numero" value="8">8</button>
         <button type="submit" name="numero" value="9">9</button>
         <button type="submit" name="numero" value="0">0</button>
-        <button type="submit" name="opcion" value="¡">¡</button>
+        <button type="submit" name="opcion" value="⇦">⇦</button>
         <button type="submit" name="opcion" value="c">c</button>
         <button type="submit" name="operador" value="+">+</button>
         <button type="submit" name="operador" value="-">-</button>
-        <input type="submit" value="Enviar">
+        <input type="submit" name="enviar" value="Enviar">
     </form>
 </body>
 </html>
