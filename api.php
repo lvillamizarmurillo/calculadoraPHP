@@ -25,6 +25,9 @@
             $resultado1 = (float)$_SESSION['num1']*(float)$_SESSION['num2'];
         }else if($_SESSION['opc'][-1] == "/"){
             $resultado1 = (float)$_SESSION['num1']-(float)$_SESSION['num2'];
+            if($_SESSION['opc'][-1] == "/" && $_SESSION['num2'] == 0){
+                $resultado1 = "No se puede dividir entre 0, intente nuevamente";
+            };
         }else if($_SESSION['opc'][-1] == "^"){
             $resultado1 = (float)$_SESSION['num1']**(float)$_SESSION['num2'];
         }else if($_SESSION['opc'][-1] == "mod"){
@@ -45,12 +48,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora</title>
+    <link rel="stylesheet" href="css/stile.css">
 </head>
 <body>
     <div class="container">
         <div class="calculadora">
             <form method="POST">
-                    <input type="text" name="resultado" value="<?php if($_POST['operador'] == null && empty($_SESSION['opc'])){
+                <table>
+                    <tr>
+                        <td colspan="6"><input type="text" name="resultado" value="<?php if($_POST['operador'] == null && empty($_SESSION['opc'])){
                         $_SESSION['num1'] = agreste('num1');
                         echo $_SESSION['num1'];
                     }else{
@@ -58,31 +64,41 @@
                         $_SESSION['opc'] .= $_POST['operador'];
                         echo $_SESSION['num1'].$_SESSION['opc'][-1].$_SESSION['num2'];
                     };
-                    ?>"><br>
-                    <button type="submit" name="numero" value="1">1</button>
-                    <button type="submit" name="numero" value="2">2</button>
-                    <button type="submit" name="numero" value="3">3</button>
-                    <button type="submit" name="operador" value="+">+</button>
-                    <button type="submit" name="opcion" value="⇦">⇦</button>
-                    <button type="submit" name="opcion" value="c">c</button><br>
-                    <button type="submit" name="numero" value="4">4</button>
-                    <button type="submit" name="numero" value="5">5</button>
-                    <button type="submit" name="numero" value="6">6</button>
-                    <button type="submit" name="operador" value="-">-</button>
-                    <button type="submit" name="operador" value="*">*</button>
-                    <button type="submit" name="operador" value="/">/</button><br>
-                    <button type="submit" name="numero" value="7">7</button>
-                    <button type="submit" name="numero" value="8">8</button>
-                    <button type="submit" name="numero" value="9">9</button>
-                    <button type="submit" name="numero" value="0">0</button>
-                    <button type="submit" name="operador" value="^">^</button>
-                    <button type="submit" name="operador" value="mod">mod</button><br>
-                    <input type="submit" name="enviar" value="Enviar">
-                </form>
+                    ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit" name="numero" value="1">1</button></td>
+                        <td><button type="submit" name="numero" value="2">2</button></td>
+                        <td><button type="submit" name="numero" value="3">3</button></td>
+                        <td><button type="submit" name="operador" value="+">+</button></td>
+                        <td><button type="submit" name="opcion" value="⇦">⇦</button></td>
+                        <td><button type="submit" name="opcion" value="c">c</button></td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit" name="numero" value="4">4</button></td>
+                        <td><button type="submit" name="numero" value="5">5</button></td>
+                        <td><button type="submit" name="numero" value="6">6</button></td>
+                        <td><button type="submit" name="operador" value="-">-</button></td>
+                        <td><button type="submit" name="operador" value="*">*</button></td>
+                        <td><button type="submit" name="operador" value="/">/</button></td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit" name="numero" value="7">7</button></td>
+                        <td><button type="submit" name="numero" value="8">8</button></td>
+                        <td><button type="submit" name="numero" value="9">9</button></td>
+                        <td><button type="submit" name="numero" value="0">0</button></td>
+                        <td><button type="submit" name="operador" value="^">^</button></td>
+                        <td><button type="submit" name="operador" value="mod">mod</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6"><input type="submit" name="enviar" value="="></td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </div>
     <div class="respueta4">
-        <?php if($_POST['enviar'] == "Enviar"){$mostrar = calculo();echo $mostrar;};?>
+        <h1><?php if($_POST['enviar'] == "="){$mostrar = calculo();echo $mostrar;};?></h1>
     </div>
 </body>
 </html>
